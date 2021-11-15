@@ -2,7 +2,7 @@ Crear una lista de datos para un archivo.
 Indique la longitud y el tipo de cada campo.
 Se solicita escribir la estructura del siguiente archivo:
 1. Un archivo de empleado (registro de TRABAJO) contiene datos sobre el empleado (Nombre, Apellido, Numero de empleado, Fecha de pago, Horas trabajadas).
-Los campor son los siguientes:
+Los campos son los siguientes:
 
 Nombre                 20
 Nombre-2               10
