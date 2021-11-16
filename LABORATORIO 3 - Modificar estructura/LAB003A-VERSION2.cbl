@@ -25,7 +25,7 @@
              10 FILLER                    PIC X(04) VALUE SPACES.
              10 WSC-PAGO4                 PIC X(05) VALUE 'PAGO4'.
              10 FILLER                    PIC X(05) VALUE SPACES.
-             10 WSC-TOTPAGO               PIC X(08) VALUE 'TOT-PAGO'.
+             10 WSC-TOTPAGO               PIC X(08) VALUE 'TOT PAGO'.
              10 FILLER                    PIC X(06) VALUE SPACES.
              10 WSC-BALANCE               PIC X(07) VALUE 'BALANCE'.
       *
