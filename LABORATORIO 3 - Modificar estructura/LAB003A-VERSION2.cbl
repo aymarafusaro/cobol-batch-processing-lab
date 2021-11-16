@@ -57,33 +57,33 @@
                                        'VICKI HAMPTON'.
                 15 WSV-DIPLOMA-1       PIC X(04) VALUE 'MBA'. 
                 15 WSV-ANIO-1          PIC 9(04) VALUE 1950.
-                15 WSV-PRESTAMO-1      PIC 9(05)V99 VALUE 15000.00.
-                15 WSV-PAGO1-1         PIC 9(04)V99 VALUE 2000.00.
-                15 WSV-PAGO2-1         PIC 9(04)V99 VALUE 2500.00.
-                15 WSV-PAGO3-1         PIC 9(04)V99 VALUE 3000.00.
-                15 WSV-PAGO4-1         PIC 9(04)V99 VALUE 7500.00.
+                15 WSV-PRESTAMO-1      PIC 9(05)V99 VALUE 15000.
+                15 WSV-PAGO1-1         PIC 9(04)V99 VALUE 2000.
+                15 WSV-PAGO2-1         PIC 9(04)V99 VALUE 2500.
+                15 WSV-PAGO3-1         PIC 9(04)V99 VALUE 3000.
+                15 WSV-PAGO4-1         PIC 9(04)V99 VALUE 7500.
       *
              10 WSV-POSTU2.
                 15 WSV-NOMBRE-2        PIC X(20) VALUE 
                                        'GEORGE WASHINGTON'.
                 15 WSV-DIPLOMA-2       PIC X(04) VALUE 'BA'. 
                 15 WSV-ANIO-2          PIC 9(04) VALUE 1920.
-                15 WSV-PRESTAMO-2      PIC 9(05)V99 VALUE 00500.00.
-                15 WSV-PAGO1-2         PIC 9(04)V99 VALUE 0050.00.
-                15 WSV-PAGO2-2         PIC 9(04)V99 VALUE 0050.00.
-                15 WSV-PAGO3-2         PIC 9(04)V99 VALUE 0100.00.
-                15 WSV-PAGO4-2         PIC 9(04)V99 VALUE 0000.00.
+                15 WSV-PRESTAMO-2      PIC 9(05)V99 VALUE 00500.
+                15 WSV-PAGO1-2         PIC 9(04)V99 VALUE 0050.
+                15 WSV-PAGO2-2         PIC 9(04)V99 VALUE 0050.
+                15 WSV-PAGO3-2         PIC 9(04)V99 VALUE 0100.
+                15 WSV-PAGO4-2         PIC 9(04)V99 VALUE 0000.
       *
              10 WSV-POSTU3.
                 15 WSV-NOMBRE-3        PIC X(20) VALUE 
                                        'IVAN ISGREAT'.
                 15 WSV-DIPLOMA-3       PIC X(04) VALUE 'BS'. 
                 15 WSV-ANIO-3          PIC 9(04) VALUE 1999.
-                15 WSV-PRESTAMO-3      PIC 9(05)V99 VALUE 25000.00.
-                15 WSV-PAGO1-3         PIC 9(04)V99 VALUE 5000.00.
-                15 WSV-PAGO2-3         PIC 9(04)V99 VALUE 5000.00.
-                15 WSV-PAGO3-3         PIC 9(04)V99 VALUE 9000.00.
-                15 WSV-PAGO4-3         PIC 9(04)V99 VALUE 0000.00.
+                15 WSV-PRESTAMO-3      PIC 9(05)V99 VALUE 25000.
+                15 WSV-PAGO1-3         PIC 9(04)V99 VALUE 5000.
+                15 WSV-PAGO2-3         PIC 9(04)V99 VALUE 5000.
+                15 WSV-PAGO3-3         PIC 9(04)V99 VALUE 9000.
+                15 WSV-PAGO4-3         PIC 9(04)V99 VALUE 0000.
       *
           05 WSV-POSTULANTE-AUX.
              10 WSV-NOMBRE-AUX          PIC X(20).
