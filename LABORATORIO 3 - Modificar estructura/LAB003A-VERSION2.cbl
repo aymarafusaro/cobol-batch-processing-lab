@@ -128,9 +128,9 @@
       *
        60-FINAL.
            DISPLAY WSV-NOMBRE-AUX   '  '
-                   WSV-DIPLOMA-AUX  '      '
+                   WSV-DIPLOMA-AUX  '       '
                    WSV-ANIO-AUX     '    '
-                   WSV-PRESTAMO-AUX '    '
+                   WSV-PRESTAMO-AUX '   '
                    WSV-PAGO1-AUX    '  '
                    WSV-PAGO2-AUX    '  '
                    WSV-PAGO3-AUX    '  '
