@@ -145,7 +145,7 @@
        50-END. EXIT.
       *
        60-FINAL.
-           DISPLAY WSV-NOMBRE-AUX   '  '
+           DISPLAY WSV-NOMBRE-AUX  '  '
                   WSV-DIPLOMA-AUX  '     '
                   WSV-ANIO-AUX     '  '
                   WSV-PRESTAMO-AUX '  '
