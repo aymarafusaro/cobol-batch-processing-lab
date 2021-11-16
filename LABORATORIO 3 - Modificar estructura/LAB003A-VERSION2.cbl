@@ -145,14 +145,14 @@
        50-END. EXIT.
       *
        60-FINAL.
-           DISPLAY WSV-NOMBRE-AUX  '  '
-                  WSV-DIPLOMA-AUX  '     '
-                  WSV-ANIO-AUX     '  '
-                  WSV-PRESTAMO-AUX '  '
-                  WSV-PAGO1-AUX    '  '
-                  WSV-PAGO2-AUX    '  '
-                  WSV-PAGO3-AUX    '  '
-                  WSV-PAGO4-AUX    '  '
-                  WSV-TOT-PAGO     '  '
-                  WSV-BALANCE.  
+           DISPLAY WSV-NOMBRE-AUX   '  '
+                   WSV-DIPLOMA-AUX  '     '
+                   WSV-ANIO-AUX     '  '
+                   WSV-PRESTAMO-AUX '  '
+                   WSV-PAGO1-AUX    '  '
+                   WSV-PAGO2-AUX    '  '
+                   WSV-PAGO3-AUX    '  '
+                   WSV-PAGO4-AUX    '  '
+                   WSV-TOT-PAGO     '  '
+                   WSV-BALANCE.  
        60-END. EXIT.
