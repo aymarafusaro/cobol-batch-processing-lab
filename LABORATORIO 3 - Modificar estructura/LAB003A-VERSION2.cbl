@@ -12,11 +12,11 @@
              10 WSC-NOMBRE             PIC X(06) VALUE 'NOMBRE'.
              10 FILLER                 PIC X(16) VALUE SPACES. 
              10 WSC-DIPLOM             PIC X(07) VALUE 'DIPLOMA'.
-             10 FILLER                 PIC X(04) VALUE SPACES.
+             10 FILLER                 PIC X(02) VALUE SPACES.
              10 WSC-ANIO               PIC X(04) VALUE 'AÑO'.
-             10 FILLER                 PIC X(04) VALUE SPACES.
+             10 FILLER                 PIC X(03) VALUE SPACES.
              10 WSC-PRESTAMO           PIC X(08) VALUE 'PRESTAMO'.
-             10 FILLER                 PIC X(04) VALUE SPACES.
+             10 FILLER                 PIC X(02) VALUE SPACES.
              10 WSC-PAGO1              PIC X(05) VALUE 'PAGO1'.
              10 FILLER                 PIC X(04) VALUE SPACES.
              10 WSC-PAGO2              PIC X(05) VALUE 'PAGO2'.
@@ -24,13 +24,31 @@
              10 WSC-PAGO3              PIC X(05) VALUE 'PAGO3'.
              10 FILLER                 PIC X(04) VALUE SPACES.
              10 WSC-PAGO4              PIC X(05) VALUE 'PAGO4'.
-             10 FILLER                 PIC X(05) VALUE SPACES.
+             10 FILLER                 PIC X(04) VALUE SPACES.
              10 WSC-TOTPAGO            PIC X(08) VALUE 'TOT PAGO'.
-             10 FILLER                 PIC X(06) VALUE SPACES.
+             10 FILLER                 PIC X(03) VALUE SPACES.
              10 WSC-BALANCE            PIC X(07) VALUE 'BALANCE'.
       *
           05 WSC-GUIONES.
-             10 FILLER                 PIC X(110) VALUE ALL '-'. 
+             10 WSC-NOMBRE-G           PIC X(20) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES. 
+             10 WSC-DIPLOM-G           PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-ANIO-G             PIC X(04) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-PRESTAMO-G         PIC X(08) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-PAGO1-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-PAGO2-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-PAGO3-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-PAGO4-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-TOTPAGO-G          PIC X(08) VALUE ALL '-'.
+             10 FILLER                 PIC X(02) VALUE SPACES.
+             10 WSC-BALANCE-G          PIC X(08) VALUE ALL '-'. 
       *
        01 WSV-VARIABLES.
           05 WSV-POSTULANTES.
@@ -128,13 +146,13 @@
       *
        60-FINAL.
            DISPLAY WSV-NOMBRE-AUX   '  '
-                   WSV-DIPLOMA-AUX  '       '
-                   WSV-ANIO-AUX     '    '
-                   WSV-PRESTAMO-AUX '   '
-                   WSV-PAGO1-AUX    '  '
-                   WSV-PAGO2-AUX    '  '
-                   WSV-PAGO3-AUX    '  '
-                   WSV-PAGO4-AUX    '   '
-                   WSV-TOT-PAGO     '     '
-                   WSV-BALANCE.  
+                  WSV-DIPLOMA-AUX  '     '
+                  WSV-ANIO-AUX     '  '
+                  WSV-PRESTAMO-AUX '  '
+                  WSV-PAGO1-AUX    '  '
+                  WSV-PAGO2-AUX    '  '
+                  WSV-PAGO3-AUX    '  '
+                  WSV-PAGO4-AUX    '  '
+                  WSV-TOT-PAGO     '  '
+                  WSV-BALANCE.  
        60-END. EXIT.
