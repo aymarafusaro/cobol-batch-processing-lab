@@ -59,7 +59,54 @@
       *-----------------------------------------------------------------
        PROCEDURE DIVISION.
       *-----------------------------------------------------------------
-
-
-
-           
+       00-OPEN-FILES.
+           OPEN INPUT                  ACCT-REC.
+           OPEN OUTPUT                 PRINT-LINE.
+      *
+       10-READ-NEXT-RECORD.
+           PERFORM UNTIL LAST-REC
+                   PERFORM 20-READ-RECORD    THRU 20-END
+                   PERFORM 30-WRITE-RECORD   THRU 30-END
+           END-PERFORM.
+      *
+       20-READ-RECORD.
+           READ ACCT-REC
+           AT END SET LAST-REC TO TRUE
+           PERFORM 40-CLOSE-STOP
+           END-READ.
+       20-END.
+      *
+       30-WRITE-RECORD.
+           COMPUTE OUT-TOT-PAGO = 
+                   (IN-PAGO1 + 
+                    IN-PAGO2 + 
+                    IN-PAGO3 + 
+                    IN-PAGO4).
+           COMPUTE OUT-BALANCE = 
+                   (IN-PRESTAMO - 
+                    OUT-TOT-PAGO).
+           WRITE REGISTRO-SALIDA.
+       30-END.
+      *
+       40-CLOSE-STOP.
+           CLOSE ACCT-REC.
+           CLOSE PRINT-LINE.
+           STOP RUN.
+      *
+       50-RUTINA-IMPRESION.
+            IF CONT-RENG = 66
+              PERFORM 50-RUTINA-IMPRESION    THRU 50-END
+              MOVE REGISTRO-ENTRADA          TO   REGISTRO-SALIDA 
+              MOVE WSV-TOT-CALCULO           TO   REGISTRO-SALIDA
+              WRITE REGISTRO-SALIDA          FROM LIN-SALIDA
+                 AFTER ADVANCING 1 LINE 
+                 ADD 1 TO CONT-RENG
+            END-IF.
+       50-END.
+      *
+       60-RUT-ENC.
+           MOVE ZEROS TO CONT-RENG.
+           WRITE REGISTRO-SALIDA             FROM LIN-SALIDA
+                 BEFORE ADVANCING PAGE 
+           ADD 3 TO CONT-RENG.
+       60-END.
