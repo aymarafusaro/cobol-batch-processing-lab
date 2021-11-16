@@ -55,7 +55,7 @@
                 15 WSV-PAGO2-2           PIC 9(04)V99 VALUE 0050.00.
                 15 WSV-PAGO3-2           PIC 9(04)V99 VALUE 0100.00.
                 15 WSV-PAGO4-2           PIC 9(04)V99 VALUE 0000.00.
-      
+      *
              10 WSV-POSTU3.
                 15 WSV-NOMBRE-3          PIC X(20) VALUE 
                                          'IVAN ISGREAT'.
@@ -112,7 +112,7 @@
                     WSV-PAGO2-AUX +
                     WSV-PAGO3-AUX +
                     WSV-PAGO4-AUX.
-       25-END.
+       25-END. EXIT.
       * 
        30-CALCULAR-BALANCE.
             COMPUTE WSV-BALANCE =
