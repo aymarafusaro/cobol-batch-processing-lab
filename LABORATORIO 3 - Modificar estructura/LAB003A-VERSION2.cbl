@@ -30,7 +30,7 @@
              10 WSC-BALANCE               PIC X(07) VALUE 'BALANCE'.
       *
           05 WSC-GUIONES.
-             10 FILLER                    PIC X(80) VALUE ALL '-'. 
+             10 FILLER                    PIC X(110) VALUE ALL '-'. 
       *
        01 WSV-VARIABLES.
           05 WSV-POSTULANTES.
