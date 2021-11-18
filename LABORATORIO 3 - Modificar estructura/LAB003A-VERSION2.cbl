@@ -9,46 +9,46 @@
        WORKING-STORAGE SECTION.
        01 WSC-CONSTANTES.
           05 WSC-TIT-1.
-             10 WSC-NOMBRE             PIC X(06) VALUE 'NOMBRE'.
+             10 FILLER                 PIC X(06) VALUE 'NOMBRE'.
              10 FILLER                 PIC X(16) VALUE SPACES. 
-             10 WSC-DIPLOM             PIC X(07) VALUE 'DIPLOMA'.
+             10 FILLER                 PIC X(07) VALUE 'DIPLOMA'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-ANIO               PIC X(04) VALUE 'AÑO'.
+             10 FILLER                 PIC X(04) VALUE 'AÑO'.
              10 FILLER                 PIC X(03) VALUE SPACES.
-             10 WSC-PRESTAMO           PIC X(08) VALUE 'PRESTAMO'.
+             10 FILLER                 PIC X(08) VALUE 'PRESTAMO'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-PAGO1              PIC X(05) VALUE 'PAGO1'.
+             10 FILLER                 PIC X(05) VALUE 'PAGO1'.
              10 FILLER                 PIC X(04) VALUE SPACES.
-             10 WSC-PAGO2              PIC X(05) VALUE 'PAGO2'.
+             10 FILLER                 PIC X(05) VALUE 'PAGO2'.
              10 FILLER                 PIC X(04) VALUE SPACES.
-             10 WSC-PAGO3              PIC X(05) VALUE 'PAGO3'.
+             10 FILLER                 PIC X(05) VALUE 'PAGO3'.
              10 FILLER                 PIC X(04) VALUE SPACES.
-             10 WSC-PAGO4              PIC X(05) VALUE 'PAGO4'.
+             10 FILLER                 PIC X(05) VALUE 'PAGO4'.
              10 FILLER                 PIC X(04) VALUE SPACES.
-             10 WSC-TOTPAGO            PIC X(08) VALUE 'TOT PAGO'.
+             10 FILLER                 PIC X(08) VALUE 'TOT PAGO'.
              10 FILLER                 PIC X(03) VALUE SPACES.
-             10 WSC-BALANCE            PIC X(07) VALUE 'BALANCE'.
+             10 FILLER                 PIC X(07) VALUE 'BALANCE'.
       *
           05 WSC-GUIONES.
-             10 WSC-NOMBRE-G           PIC X(20) VALUE ALL '-'.
+             10 FILLER                 PIC X(20) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES. 
-             10 WSC-DIPLOM-G           PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(07) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-ANIO-G             PIC X(04) VALUE ALL '-'.
+             10 FILLER                 PIC X(04) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-PRESTAMO-G         PIC X(08) VALUE ALL '-'.
+             10 FILLER                 PIC X(08) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-PAGO1-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(07) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-PAGO2-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(07) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-PAGO3-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(07) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-PAGO4-G            PIC X(07) VALUE ALL '-'.
+             10 FILLER                 PIC X(07) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-TOTPAGO-G          PIC X(08) VALUE ALL '-'.
+             10 FILLER                 PIC X(08) VALUE ALL '-'.
              10 FILLER                 PIC X(02) VALUE SPACES.
-             10 WSC-BALANCE-G          PIC X(08) VALUE ALL '-'. 
+             10 FILLER                 PIC X(08) VALUE ALL '-'. 
       *
        01 WSV-VARIABLES.
           05 WSV-POSTULANTES.
@@ -106,7 +106,7 @@
        00-END. EXIT.
       * 
        10-INICIO.
-            PERFORM 50-TITULOS THRU 50-END.
+            PERFORM 35-TITULOS THRU 35-END.
             INITIALIZE WSV-POSTULANTE-AUX.
        10-END. EXIT.
       * 
@@ -136,15 +136,15 @@
             COMPUTE WSV-BALANCE =
                     WSV-PRESTAMO-AUX -
                     WSV-TOT-PAGO.
-            PERFORM 60-FINAL THRU 60-END.
+            PERFORM 40-FINAL THRU 40-END.
        30-END. EXIT.
       * 
-       50-TITULOS.
+       35-TITULOS.
              DISPLAY WSC-TIT-1.
              DISPLAY WSC-GUIONES.
-       50-END. EXIT.
+       35-END. EXIT.
       *
-       60-FINAL.
+       40-FINAL.
            DISPLAY WSV-NOMBRE-AUX   '  '
                    WSV-DIPLOMA-AUX  '     '
                    WSV-ANIO-AUX     '  '
@@ -155,4 +155,4 @@
                    WSV-PAGO4-AUX    '  '
                    WSV-TOT-PAGO     '  '
                    WSV-BALANCE.  
-       60-END. EXIT.
+       40-END. EXIT.
