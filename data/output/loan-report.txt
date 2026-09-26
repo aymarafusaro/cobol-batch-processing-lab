@@ -1,0 +1,8 @@
+==============================================
+LOAN PAYMENT PROCESSING REPORT
+==============================================
+VICKI HAMPTON        | MBA  | 1950 | LOAN: 15,000.00 | TOTAL PAID: 15,000.00 | BALANCE:      0.00
+GEORGE WASHINGTON    | BA   | 1920 | LOAN:    500.00 | TOTAL PAID:    200.00 | BALANCE:    300.00
+IVAN ISGREAT         | BS   | 1999 | LOAN: 25,000.00 | TOTAL PAID: 19,000.00 | BALANCE:  6,000.00
+----------------------------------------------
+APPLICANTS PROCESSED: 0003
