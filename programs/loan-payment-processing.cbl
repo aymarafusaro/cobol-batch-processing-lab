@@ -81,8 +81,9 @@
        01  WS-FLAGS.
            05  WS-EOF              PIC X VALUE "N".
                88  END-OF-FILE     VALUE "Y".
-
            05  WS-VALID-RECORD     PIC X VALUE "N".
+
+       01  WS-REJECTION-REASON     PIC X(40).
 
        01  WS-COUNTERS.
            05  WS-RECORDS-READ     PIC 9(4) VALUE ZERO.
@@ -171,29 +172,39 @@
            .
 
        2100-VALIDATE-RECORD.
-
            MOVE "Y" TO WS-VALID-RECORD
+           MOVE SPACES TO WS-REJECTION-REASON
 
            MOVE LOAN-INPUT-RECORD TO WS-INPUT-FIELDS
 
            IF FUNCTION TEST-NUMVAL(WS-LOAN-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
+               MOVE "E001 - INVALID NUMERIC DATA"
+                   TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-1-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
+               MOVE "E001 - INVALID NUMERIC DATA"
+                   TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-2-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
+               MOVE "E001 - INVALID NUMERIC DATA"
+                   TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-3-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
+               MOVE "E001 - INVALID NUMERIC DATA"
+                   TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-4-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
+               MOVE "E001 - INVALID NUMERIC DATA"
+                   TO WS-REJECTION-REASON
            END-IF
 
            IF WS-VALID-RECORD = "Y"
@@ -202,9 +213,10 @@
 
                IF WS-LOAN > WS-MAX-LOAN
                    MOVE "N" TO WS-VALID-RECORD
+                   MOVE "E002 - MAX LOAN EXCEEDED"
+                       TO WS-REJECTION-REASON
                END-IF
            END-IF
-
            .
 
        2200-PROCESS-RECORD.
@@ -271,13 +283,14 @@
            .
 
        2300-REJECT-RECORD.
-
            ADD 1 TO WS-RECORDS-REJECTED
 
            MOVE SPACES TO WS-OUTPUT-LINE
 
            STRING
-               "REJECTED: "
+               "REJECTED - "
+               WS-REJECTION-REASON
+               " | "
                LOAN-INPUT-RECORD
                DELIMITED BY SIZE
                INTO WS-OUTPUT-LINE
