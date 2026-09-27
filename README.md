@@ -1,4 +1,4 @@
-# Diplo-COBOL
+# Cobol-Batch-Processing-Lab
 
 Laboratorio de procesamiento batch desarrollado en COBOL, basado en conceptos y patrones habituales de entornos Mainframe.
 
