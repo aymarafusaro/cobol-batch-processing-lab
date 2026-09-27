@@ -135,6 +135,26 @@
                TO WS-OUTPUT-LINE
            WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
 
+           MOVE SPACES TO WS-OUTPUT-LINE
+           STRING
+               "PROCESS DATE: "
+               WS-PROCESS-DATE
+               DELIMITED BY SIZE
+               INTO WS-OUTPUT-LINE
+           END-STRING
+           WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+
+           MOVE SPACES TO WS-OUTPUT-LINE
+           MOVE WS-MAX-LOAN
+               TO WS-PRINT-LOAN
+           STRING
+               "MAX LOAN: "
+               WS-PRINT-LOAN
+               DELIMITED BY SIZE
+               INTO WS-OUTPUT-LINE
+           END-STRING
+           WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+
            MOVE "=============================================="
                TO WS-OUTPUT-LINE
            WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE

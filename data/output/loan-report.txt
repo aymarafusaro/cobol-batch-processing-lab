@@ -1,5 +1,7 @@
 ==============================================
 LOAN PAYMENT PROCESSING REPORT
+PROCESS DATE: 2026-09-27
+MAX LOAN: 20,000.00
 ==============================================
 VICKI HAMPTON        | MBA  | 1950 | LOAN: 15,000.00 | TOTAL PAID: 15,000.00 | BALANCE:      0.00
 GEORGE WASHINGTON    | BA   | 1920 | LOAN:    500.00 | TOTAL PAID:    200.00 | BALANCE:    300.00
