@@ -23,8 +23,13 @@
 
        01  WS-RECORDS-READ    PIC 9(4) VALUE ZERO.
 
-       01  WS-REPORT-VALID    PIC X VALUE "N".
-           88  REPORT-VALID   VALUE "Y".
+       01  WS-VALIDATION-FLAGS.
+           05  WS-HEADER-FOUND       PIC X VALUE "N".
+           05  WS-DATE-FOUND         PIC X VALUE "N".
+           05  WS-MAX-LOAN-FOUND     PIC X VALUE "N".
+           05  WS-READ-FOUND         PIC X VALUE "N".
+           05  WS-PROCESSED-FOUND    PIC X VALUE "N".
+           05  WS-REJECTED-FOUND     PIC X VALUE "N".
 
        PROCEDURE DIVISION.
 
@@ -37,13 +42,40 @@
                READ REPORT-INPUT
                    AT END
                        SET END-OF-FILE TO TRUE
+
                    NOT AT END
                        ADD 1 TO WS-RECORDS-READ
 
                        IF REPORT-RECORD
                           = "LOAN PAYMENT PROCESSING REPORT"
-                           SET REPORT-VALID TO TRUE
+                           MOVE "Y" TO WS-HEADER-FOUND
                        END-IF
+
+                       IF REPORT-RECORD(1:13)
+                          = "PROCESS DATE:"
+                           MOVE "Y" TO WS-DATE-FOUND
+                       END-IF
+                       
+                       IF REPORT-RECORD(1:9)
+                          = "MAX LOAN:"
+                           MOVE "Y" TO WS-MAX-LOAN-FOUND
+                       END-IF
+
+                       IF REPORT-RECORD(1:13)
+                          = "RECORDS READ:"
+                           MOVE "Y" TO WS-READ-FOUND
+                       END-IF
+
+                       IF REPORT-RECORD(1:18)
+                          = "RECORDS PROCESSED:"
+                           MOVE "Y" TO WS-PROCESSED-FOUND
+                       END-IF
+
+                       IF REPORT-RECORD(1:18)
+                          = "RECORDS REJECTED:"
+                           MOVE "Y" TO WS-REJECTED-FOUND
+                       END-IF
+
                END-READ
 
            END-PERFORM
@@ -54,12 +86,20 @@
            DISPLAY "        REPORT VALIDATION"
            DISPLAY "========================================"
            DISPLAY "REPORT RECORDS READ: " WS-RECORDS-READ
-           IF REPORT-VALID
+           
+           IF WS-HEADER-FOUND = "Y"
+              AND WS-DATE-FOUND = "Y"
+              AND WS-MAX-LOAN-FOUND = "Y"
+              AND WS-READ-FOUND = "Y"
+              AND WS-PROCESSED-FOUND = "Y"
+              AND WS-REJECTED-FOUND = "Y"
+
                DISPLAY "REPORT STATUS: VALID"
+
            ELSE
+
                DISPLAY "REPORT STATUS: INVALID"
+
            END-IF
-           DISPLAY "REPORT VALIDATION COMPLETED."
-           DISPLAY "========================================"
 
            STOP RUN.
