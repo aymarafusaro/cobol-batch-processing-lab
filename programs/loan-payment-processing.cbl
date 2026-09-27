@@ -15,6 +15,10 @@
                ASSIGN TO "data/output/loan-report.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
 
+           SELECT ERROR-OUTPUT
+               ASSIGN TO "data/output/errors.txt"
+               ORGANIZATION IS LINE SEQUENTIAL.
+
        DATA DIVISION.
        FILE SECTION.
 
@@ -23,6 +27,9 @@
 
        FD  LOAN-OUTPUT.
        01  LOAN-OUTPUT-RECORD      PIC X(120).
+
+       FD  ERROR-OUTPUT.
+       01  ERROR-OUTPUT-RECORD     PIC X(120).
 
        WORKING-STORAGE SECTION.
 
@@ -52,22 +59,25 @@
            05  WS-TOTAL-PAID       PIC 9(5)V99 VALUE ZERO.
            05  WS-BALANCE          PIC 9(5)V99 VALUE ZERO.
 
+       01  WS-PRINT-AMOUNTS.
+           05  WS-PRINT-LOAN       PIC ZZ,ZZ9.99.
+           05  WS-PRINT-TOTAL      PIC ZZ,ZZ9.99.
+           05  WS-PRINT-BALANCE    PIC ZZ,ZZ9.99.
+
        01  WS-FLAGS.
            05  WS-EOF              PIC X VALUE "N".
                88  END-OF-FILE     VALUE "Y".
 
-       01  WS-RECORD-COUNT         PIC 9(4) VALUE ZERO.
+           05  WS-VALID-RECORD     PIC X VALUE "N".
+
+       01  WS-COUNTERS.
+           05  WS-RECORDS-READ     PIC 9(4) VALUE ZERO.
+           05  WS-RECORDS-PROCESSED
+                                    PIC 9(4) VALUE ZERO.
+           05  WS-RECORDS-REJECTED
+                                    PIC 9(4) VALUE ZERO.
 
        01  WS-OUTPUT-LINE          PIC X(120).
-
-       01  WS-PRINT-AMOUNTS.
-           05  WS-PRINT-LOAN       PIC ZZ,ZZ9.99.
-           05  WS-PRINT-PAYMENT-1  PIC ZZ,ZZ9.99.
-           05  WS-PRINT-PAYMENT-2  PIC ZZ,ZZ9.99.
-           05  WS-PRINT-PAYMENT-3  PIC ZZ,ZZ9.99.
-           05  WS-PRINT-PAYMENT-4  PIC ZZ,ZZ9.99.
-           05  WS-PRINT-TOTAL      PIC ZZ,ZZ9.99.
-           05  WS-PRINT-BALANCE    PIC ZZ,ZZ9.99.
 
        PROCEDURE DIVISION.
 
@@ -83,10 +93,11 @@
 
            OPEN INPUT LOAN-INPUT
                 OUTPUT LOAN-OUTPUT
+                OUTPUT ERROR-OUTPUT
 
            MOVE SPACES TO WS-OUTPUT-LINE
 
-           MOVE "==============================================" 
+           MOVE "=============================================="
                TO WS-OUTPUT-LINE
            WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
 
@@ -97,6 +108,14 @@
            MOVE "=============================================="
                TO WS-OUTPUT-LINE
            WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+
+           MOVE "INVALID RECORDS"
+               TO WS-OUTPUT-LINE
+           WRITE ERROR-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+
+           MOVE "=============================================="
+               TO WS-OUTPUT-LINE
+           WRITE ERROR-OUTPUT-RECORD FROM WS-OUTPUT-LINE
            .
 
        2000-PROCESS-FILE.
@@ -106,16 +125,51 @@
                READ LOAN-INPUT
                    AT END
                        SET END-OF-FILE TO TRUE
+
                    NOT AT END
-                       PERFORM 2100-PROCESS-RECORD
+                       ADD 1 TO WS-RECORDS-READ
+                       PERFORM 2100-VALIDATE-RECORD
+
+                       IF WS-VALID-RECORD = "Y"
+                           PERFORM 2200-PROCESS-RECORD
+                       ELSE
+                           PERFORM 2300-REJECT-RECORD
+                       END-IF
+
                END-READ
 
            END-PERFORM
            .
 
-       2100-PROCESS-RECORD.
+       2100-VALIDATE-RECORD.
+
+           MOVE "Y" TO WS-VALID-RECORD
 
            MOVE LOAN-INPUT-RECORD TO WS-INPUT-FIELDS
+
+           IF FUNCTION TEST-NUMVAL(WS-LOAN-TEXT) NOT = 0
+               MOVE "N" TO WS-VALID-RECORD
+           END-IF
+
+           IF FUNCTION TEST-NUMVAL(WS-PAYMENT-1-TEXT) NOT = 0
+               MOVE "N" TO WS-VALID-RECORD
+           END-IF
+
+           IF FUNCTION TEST-NUMVAL(WS-PAYMENT-2-TEXT) NOT = 0
+               MOVE "N" TO WS-VALID-RECORD
+           END-IF
+
+           IF FUNCTION TEST-NUMVAL(WS-PAYMENT-3-TEXT) NOT = 0
+               MOVE "N" TO WS-VALID-RECORD
+           END-IF
+
+           IF FUNCTION TEST-NUMVAL(WS-PAYMENT-4-TEXT) NOT = 0
+               MOVE "N" TO WS-VALID-RECORD
+           END-IF
+
+           .
+
+       2200-PROCESS-RECORD.
 
            COMPUTE WS-LOAN =
                FUNCTION NUMVAL(WS-LOAN-TEXT)
@@ -141,27 +195,15 @@
            COMPUTE WS-BALANCE =
                WS-LOAN - WS-TOTAL-PAID
 
-           ADD 1 TO WS-RECORD-COUNT
+           ADD 1 TO WS-RECORDS-PROCESSED
 
-           PERFORM 2200-WRITE-RESULT
+           PERFORM 2210-WRITE-RESULT
            .
 
-       2200-WRITE-RESULT.
+       2210-WRITE-RESULT.
 
            MOVE WS-LOAN
                TO WS-PRINT-LOAN
-
-           MOVE WS-PAYMENT-1
-               TO WS-PRINT-PAYMENT-1
-
-           MOVE WS-PAYMENT-2
-               TO WS-PRINT-PAYMENT-2
-
-           MOVE WS-PAYMENT-3
-               TO WS-PRINT-PAYMENT-3
-
-           MOVE WS-PAYMENT-4
-               TO WS-PRINT-PAYMENT-4
 
            MOVE WS-TOTAL-PAID
                TO WS-PRINT-TOTAL
@@ -190,6 +232,22 @@
            WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
            .
 
+       2300-REJECT-RECORD.
+
+           ADD 1 TO WS-RECORDS-REJECTED
+
+           MOVE SPACES TO WS-OUTPUT-LINE
+
+           STRING
+               "REJECTED: "
+               LOAN-INPUT-RECORD
+               DELIMITED BY SIZE
+               INTO WS-OUTPUT-LINE
+           END-STRING
+
+           WRITE ERROR-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+           .
+
        3000-FINALIZE.
 
            MOVE SPACES TO WS-OUTPUT-LINE
@@ -198,11 +256,33 @@
                TO WS-OUTPUT-LINE
            WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
 
-           MOVE "APPLICANTS PROCESSED: " TO WS-OUTPUT-LINE
+           MOVE SPACES TO WS-OUTPUT-LINE
 
            STRING
-               "APPLICANTS PROCESSED: "
-               WS-RECORD-COUNT
+               "RECORDS READ:       "
+               WS-RECORDS-READ
+               DELIMITED BY SIZE
+               INTO WS-OUTPUT-LINE
+           END-STRING
+
+           WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+
+           MOVE SPACES TO WS-OUTPUT-LINE
+
+           STRING
+               "RECORDS PROCESSED:  "
+               WS-RECORDS-PROCESSED
+               DELIMITED BY SIZE
+               INTO WS-OUTPUT-LINE
+           END-STRING
+
+           WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+
+           MOVE SPACES TO WS-OUTPUT-LINE
+
+           STRING
+               "RECORDS REJECTED:   "
+               WS-RECORDS-REJECTED
                DELIMITED BY SIZE
                INTO WS-OUTPUT-LINE
            END-STRING
@@ -211,7 +291,11 @@
 
            CLOSE LOAN-INPUT
                  LOAN-OUTPUT
+                 ERROR-OUTPUT
 
            DISPLAY "BATCH PROCESSING COMPLETED."
-           DISPLAY "RECORDS PROCESSED: " WS-RECORD-COUNT
+           DISPLAY "RECORDS READ:       " WS-RECORDS-READ
+           DISPLAY "RECORDS PROCESSED:  " WS-RECORDS-PROCESSED
+           DISPLAY "RECORDS REJECTED:   " WS-RECORDS-REJECTED
            .
+

@@ -1,0 +1,3 @@
+INVALID RECORDS
+==============================================
+REJECTED: INVALID CUSTOMER      XX   2026 XXXXX.XX 100.00 100.00 100.00 100.00
