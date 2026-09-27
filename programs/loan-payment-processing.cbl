@@ -7,6 +7,10 @@
 
        FILE-CONTROL.
 
+           SELECT CONTROL-INPUT
+               ASSIGN TO "data/input/loan-control.dat"
+               ORGANIZATION IS LINE SEQUENTIAL.
+           
            SELECT LOAN-INPUT
                ASSIGN TO "data/input/loan-accounts.dat"
                ORGANIZATION IS LINE SEQUENTIAL.
@@ -22,6 +26,9 @@
        DATA DIVISION.
        FILE SECTION.
 
+       FD  CONTROL-INPUT.
+       01  CONTROL-RECORD          PIC X(30).
+       
        FD  LOAN-INPUT.
        01  LOAN-INPUT-RECORD       PIC X(80).
 
@@ -33,6 +40,13 @@
 
        WORKING-STORAGE SECTION.
 
+       01  WS-CONTROL-FIELDS.
+           05  WS-PROCESS-DATE     PIC X(10).
+           05  FILLER              PIC X.
+           05  WS-MAX-LOAN-TEXT    PIC X(8).
+
+       01  WS-MAX-LOAN             PIC 9(5)V99 VALUE ZERO.
+       
        01  WS-INPUT-FIELDS.
            05  WS-NAME             PIC X(20).
            05  FILLER              PIC X.
@@ -91,9 +105,24 @@
 
        1000-INITIALIZE.
 
-           OPEN INPUT LOAN-INPUT
+           OPEN INPUT CONTROL-INPUT
+                INPUT LOAN-INPUT
                 OUTPUT LOAN-OUTPUT
                 OUTPUT ERROR-OUTPUT
+
+           READ CONTROL-INPUT
+               AT END
+                   MOVE SPACES TO WS-CONTROL-FIELDS
+               NOT AT END
+                   MOVE CONTROL-RECORD TO WS-CONTROL-FIELDS
+
+                   IF FUNCTION TEST-NUMVAL(WS-MAX-LOAN-TEXT) = 0
+                       COMPUTE WS-MAX-LOAN =
+                           FUNCTION NUMVAL(WS-MAX-LOAN-TEXT)
+                   END-IF
+           END-READ
+
+           MOVE "Y" TO WS-VALID-RECORD
 
            MOVE SPACES TO WS-OUTPUT-LINE
 
@@ -165,6 +194,15 @@
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-4-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
+           END-IF
+
+           IF WS-VALID-RECORD = "Y"
+               COMPUTE WS-LOAN =
+                   FUNCTION NUMVAL(WS-LOAN-TEXT)
+
+               IF WS-LOAN > WS-MAX-LOAN
+                   MOVE "N" TO WS-VALID-RECORD
+               END-IF
            END-IF
 
            .
@@ -250,6 +288,8 @@
 
        3000-FINALIZE.
 
+           CLOSE CONTROL-INPUT
+           
            MOVE SPACES TO WS-OUTPUT-LINE
 
            MOVE "----------------------------------------------"
