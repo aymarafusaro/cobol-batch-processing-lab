@@ -82,6 +82,8 @@
            05  WS-EOF              PIC X VALUE "N".
                88  END-OF-FILE     VALUE "Y".
            05  WS-VALID-RECORD     PIC X VALUE "N".
+           05  WS-CONTROL-VALID    PIC X VALUE "N".
+               88  CONTROL-VALID   VALUE "Y".
 
        01  WS-REJECTION-REASON     PIC X(40).
 
@@ -97,11 +99,15 @@
        PROCEDURE DIVISION.
 
        0000-MAIN.
-
            PERFORM 1000-INITIALIZE
-           PERFORM 2000-PROCESS-FILE
-           PERFORM 3000-FINALIZE
 
+           IF CONTROL-VALID
+               PERFORM 2000-PROCESS-FILE
+           ELSE
+               DISPLAY "ERROR: INVALID CONTROL FILE"
+           END-IF
+
+           PERFORM 3000-FINALIZE
            STOP RUN.
 
        1000-INITIALIZE.
@@ -114,12 +120,19 @@
            READ CONTROL-INPUT
                AT END
                    MOVE SPACES TO WS-CONTROL-FIELDS
+
                NOT AT END
                    MOVE CONTROL-RECORD TO WS-CONTROL-FIELDS
 
-                   IF FUNCTION TEST-NUMVAL(WS-MAX-LOAN-TEXT) = 0
-                       COMPUTE WS-MAX-LOAN =
-                           FUNCTION NUMVAL(WS-MAX-LOAN-TEXT)
+                   IF WS-PROCESS-DATE NOT = SPACES
+                       IF FUNCTION TEST-NUMVAL(WS-MAX-LOAN-TEXT) = 0
+                           COMPUTE WS-MAX-LOAN =
+                               FUNCTION NUMVAL(WS-MAX-LOAN-TEXT)
+
+                           IF WS-MAX-LOAN > ZERO
+                               SET CONTROL-VALID TO TRUE
+                           END-IF
+                       END-IF
                    END-IF
            END-READ
 
@@ -322,6 +335,13 @@
        3000-FINALIZE.
 
            CLOSE CONTROL-INPUT
+
+           IF NOT CONTROL-VALID
+               MOVE SPACES TO WS-OUTPUT-LINE
+               MOVE "BATCH ABORTED - INVALID CONTROL FILE"
+                   TO WS-OUTPUT-LINE
+               WRITE LOAN-OUTPUT-RECORD FROM WS-OUTPUT-LINE
+           END-IF
            
            MOVE SPACES TO WS-OUTPUT-LINE
 
