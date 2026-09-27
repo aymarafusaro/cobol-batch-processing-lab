@@ -87,6 +87,12 @@
 
        01  WS-REJECTION-REASON     PIC X(40).
 
+       01  WS-ERROR-CODES.
+           05  WS-ERROR-NUMERIC    PIC X(40)
+               VALUE "E001 - INVALID NUMERIC DATA".
+           05  WS-ERROR-MAX-LOAN   PIC X(40)
+               VALUE "E002 - MAX LOAN EXCEEDED".
+
        01  WS-COUNTERS.
            05  WS-RECORDS-READ     PIC 9(4) VALUE ZERO.
            05  WS-RECORDS-PROCESSED
@@ -212,31 +218,31 @@
 
            IF FUNCTION TEST-NUMVAL(WS-LOAN-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
-               MOVE "E001 - INVALID NUMERIC DATA"
+               MOVE WS-ERROR-NUMERIC
                    TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-1-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
-               MOVE "E001 - INVALID NUMERIC DATA"
+               MOVE WS-ERROR-NUMERIC
                    TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-2-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
-               MOVE "E001 - INVALID NUMERIC DATA"
+               MOVE WS-ERROR-NUMERIC
                    TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-3-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
-               MOVE "E001 - INVALID NUMERIC DATA"
+               MOVE WS-ERROR-NUMERIC
                    TO WS-REJECTION-REASON
            END-IF
 
            IF FUNCTION TEST-NUMVAL(WS-PAYMENT-4-TEXT) NOT = 0
                MOVE "N" TO WS-VALID-RECORD
-               MOVE "E001 - INVALID NUMERIC DATA"
+               MOVE WS-ERROR-NUMERIC
                    TO WS-REJECTION-REASON
            END-IF
 
@@ -246,7 +252,7 @@
 
                IF WS-LOAN > WS-MAX-LOAN
                    MOVE "N" TO WS-VALID-RECORD
-                   MOVE "E002 - MAX LOAN EXCEEDED"
+                   MOVE WS-ERROR-MAX-LOAN
                        TO WS-REJECTION-REASON
                END-IF
            END-IF
